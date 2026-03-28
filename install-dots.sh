@@ -32,9 +32,9 @@ fi
 
 if ! command -v home-manager &> /dev/null; then
   echo "Installing Home Manager..."
-  nix-channel --add https://github.com/nix-community/home-manager/master home-manager
+  nix-channel --add https://github.com/nix-community/home-manager/archive/release-25.05.tar.gz home-manager
   nix-channel --update
-  nix run home-manager -- switch --configuration
+  nix-env -iA home-manager
 fi
 
 echo "Cloning repository..."
