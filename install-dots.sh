@@ -21,8 +21,12 @@ fi
 if [ ! -f /etc/nixos/.nix.enable-flakes ]; then
   echo "Enabling flakes..."
   mkdir -p /etc/nixos/.nix
-  echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
-  echo "sandbox = false" >> /etc/nix/nix.conf
+  if [ -w /etc/nix/nix.conf ] 2>/dev/null; then
+    echo "experimental-features = nix-command flakes" >> /etc/nix/nix.conf
+    echo "sandbox = false" >> /etc/nix/nix.conf
+  else
+    echo "Skipping nix.conf (read-only) - assuming flakes already enabled"
+  fi
   touch /etc/nixos/.nix.enable-flakes
 fi
 
