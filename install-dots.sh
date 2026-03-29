@@ -31,13 +31,10 @@ if [ ! -f /etc/nixos/.nix.enable-flakes ]; then
 fi
 
 if ! command -v home-manager &> /dev/null; then
-  echo "Installing Home Manager dependencies..."
-  nix-env -iA nixpkgs.gettext
-  
   echo "Installing Home Manager..."
   nix-channel --add https://github.com/nix-community/home-manager/archive/release-25.05.tar.gz home-manager
   nix-channel --update
-  nix-env -iA home-manager
+  nix-env -iA home-manager.home-manager
 fi
 
 echo "Cloning repository..."
