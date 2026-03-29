@@ -37,6 +37,9 @@ if ! command -v home-manager &> /dev/null; then
   nix-env -iA home-manager.home-manager
 fi
 
+echo "Installing git..."
+nix-env -iA nixpkgs.git
+
 echo "Cloning repository..."
 mkdir -p "$TARGET_DIR"
 cd "$TARGET_DIR"
@@ -50,6 +53,9 @@ fi
 
 echo "Replacing username ilyamiro -> kudo..."
 find . -type f \( -name "*.nix" -o -name "*.sh" -o -name "*.conf" \) -exec sed -i 's/ilyamiro/kudo/g' {} \;
+
+echo "Creating user kudo if not exists..."
+id kudo 2>/dev/null || useradd -m -s /run/current-system/sw/bin/zsh kudo
 
 if [ ! -f "$TARGET_DIR/configuration.nix" ]; then
   ln -sf "$TARGET_DIR/nixos-configuration/configuration.nix" "$TARGET_DIR/configuration.nix"
@@ -75,5 +81,8 @@ fi
 
 echo "Building NixOS configuration..."
 nixos-rebuild switch -I nixos-config=/etc/nixos/configuration.nix
+
+echo "Applying home-manager for user $USERNAME..."
+sudo -u "$USERNAME" home-manager switch -f /etc/nixos/home.nix
 
 echo "Done! Please reboot."
