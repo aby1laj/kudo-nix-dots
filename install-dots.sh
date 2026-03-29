@@ -37,17 +37,14 @@ if ! command -v home-manager &> /dev/null; then
   nix-env -iA home-manager.home-manager
 fi
 
-echo "Installing git..."
-nix-env -i git
-
 echo "Cloning repository..."
 mkdir -p "$TARGET_DIR"
 cd "$TARGET_DIR"
 if [ -d "$TARGET_DIR/nixos-configuration" ]; then
   cd nixos-configuration
-  git pull
+  nix-shell -p git --run "git pull"
 else
-  git clone "$REPO_URL" nixos-configuration
+  nix-shell -p git --run "git clone $REPO_URL nixos-configuration"
   cd nixos-configuration
 fi
 
