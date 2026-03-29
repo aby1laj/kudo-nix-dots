@@ -38,7 +38,7 @@ if ! command -v home-manager &> /dev/null; then
 fi
 
 echo "Installing git..."
-nix-env -iA nixpkgs.git
+nix-env -i git
 
 echo "Cloning repository..."
 mkdir -p "$TARGET_DIR"
