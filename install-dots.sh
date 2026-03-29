@@ -50,9 +50,10 @@ fi
 
 echo "Replacing username ilyamiro -> kudo..."
 find . -type f \( -name "*.nix" -o -name "*.sh" -o -name "*.conf" \) -exec sed -i 's/ilyamiro/kudo/g' {} \;
+sed -i 's/stateVersion = "25.11"/stateVersion = "24.11"/g' home.nix configuration.nix
 
 echo "Creating user kudo if not exists..."
-id kudo 2>/dev/null || useradd -m -s /run/current-system/sw/bin/zsh kudo
+id kudo 2>/dev/null || useradd -m -s /bin/zsh kudo
 
 if [ ! -f "$TARGET_DIR/configuration.nix" ]; then
   ln -sf "$TARGET_DIR/nixos-configuration/configuration.nix" "$TARGET_DIR/configuration.nix"
