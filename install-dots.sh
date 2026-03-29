@@ -74,6 +74,6 @@ if [ ! -L /root/.config/nix ]; then
 fi
 
 echo "Building NixOS configuration..."
-nixos-rebuild switch --flake "$TARGET_DIR#kudo" --impure
+nixos-rebuild switch -I nixos-config=/etc/nixos/configuration.nix
 
 echo "Done! Please reboot."
